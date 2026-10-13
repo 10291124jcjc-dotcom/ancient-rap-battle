@@ -8,9 +8,7 @@
 
 周瑜拿正史打，诸葛亮拿演义还手。1 分 42 秒，34 句原创歌词，视频生成花了约 16 美元。
 
-[![周瑜 vs 诸葛亮](assets/cover-16x9.jpg)](assets/demo.mp4)
-
-▶ 点上图看完整视频（[assets/demo.mp4](assets/demo.mp4)）
+https://github.com/user-attachments/assets/9c620e92-4e5d-4da9-93ff-3ef39cfedbe6
 
 | | |
 | --- | --- |
