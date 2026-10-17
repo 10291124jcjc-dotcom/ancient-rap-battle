@@ -113,10 +113,15 @@ def find_verse(words, t_from, lyrics, beat, b0, bar):
     lines = []
     for i in range(n_lines):
         bt = anchor + i * bar
-        ws = [w for w in words if bt - 0.3 <= w["s"] < bt + bar - 0.3]
+        ws = [w for w in words if bt - 0.13 <= w["s"] < bt + bar - 0.13]
+        # Suno lets the previous line's last syllable spill up to ~0.15 s past the bar line: skip words up to
+        # and including the last one (among the first three, starting before bar + 0.15) that is that syllable
         prev_tail = han(lyrics[i - 1])[-1:] if i else ""
-        if len(ws) > 1 and prev_tail and han(ws[0]["w"]) == prev_tail:
-            ws = ws[1:]                     # the previous line's last syllable spilled over the bar line
+        k = 0
+        for j, w in enumerate(ws[:3]):
+            if prev_tail and w["s"] < bt + 0.15 and han(w["w"])[-1:] == prev_tail:
+                k = j + 1
+        ws = ws[k:] if k < len(ws) else ws
         lines.append({"bar": round(bt, 3), "start": round(min((w["s"] for w in ws), default=bt), 3),
                       "heard": "".join(w["w"] for w in ws).strip()})
     return anchor, lines
@@ -233,13 +238,15 @@ def main():
             st = new(l["start"])
             en = new(ls[i + 1]["start"]) if i + 1 < len(ls) else st + bar
             lines.append({"who": who, "n": i + 1, "text": txt, "start": round(st, 3), "end": round(en, 3),
-                          "bar": round(new(l["bar"]), 3), "heard": l["heard"]})
+                          "bar": round(new(l["bar"]), 3), "heard": l["heard"],
+                          "orig_start": l["start"], "orig_bar": l["bar"]})     # times in the untrimmed song (retrim.py)
     jsave(os.path.join(work, "lines.json"), lines)
     with open(os.path.join(ep, "字幕.srt"), "w", encoding="utf-8") as f:
         for i, l in enumerate(lines, 1):
             f.write("%d\n%s --> %s\n%s\n\n" % (i, srt_time(l["start"] - 0.05).replace(".", ","),
                                                srt_time(l["end"] - 0.07).replace(".", ","), l["text"]))
-    jsave(os.path.join(work, "grid.json"), {"bpm": bpm, "beat0": b0, "bar": bar, "keep": keep, "length": acc})
+    jsave(os.path.join(work, "grid.json"), {"bpm": bpm, "beat0": b0, "bar": bar, "keep": keep, "length": acc,
+                                            "verse_a": aA, "verse_b": aB})
     print("\nline check (time | what the recognizer heard | lyric) - the heard text is homophones, compare lengths:")
     for l in lines:
         print("%s%02d %6.2f | %-22s | %s" % (l["who"].upper(), l["n"], l["start"], l["heard"][:22], l["text"]))

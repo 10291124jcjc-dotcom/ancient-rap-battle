@@ -9,7 +9,7 @@ import subprocess
 import sys
 
 NEED = {"numpy": "numpy", "scipy": "scipy", "soundfile": "soundfile", "PIL": "pillow",
-        "demucs": "demucs", "faster_whisper": "faster-whisper"}
+        "demucs": "demucs", "faster_whisper": "faster-whisper", "pypinyin": "pypinyin"}
 OPTIONAL = {"mediapipe": "mediapipe", "cv2": "opencv-python"}
 
 
@@ -37,7 +37,8 @@ def main():
     if opt:
         print("  optional (lipcheck.py only):", " ".join(opt))
     print("\nREADY" if ok else "\nNOT READY - fix the lines marked !")
-    print("Also needed: a Suno account, a Midjourney account, and a MiniMax API key in the env var MINIMAX_API_KEY.")
+    print("Also needed: a Suno account, a Midjourney account, and a Jimeng (即梦) membership for Seedance 2.5.")
+    print("Optional H3 path: a MiniMax API key in the env var MINIMAX_API_KEY.")
 
 
 if __name__ == "__main__":

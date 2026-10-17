@@ -12,12 +12,14 @@ CACHE = os.path.join(os.path.expanduser("~"), ".cache", "ancient-rap-battle")
 REFS = {
     "a_sheet": "a_sheet.png",      # A full-body turnaround (front / side / back)
     "a_face": "a_face.png",        # A 2x2 expression sheet
+    "a_bust": "a_bust.png",        # A waist-up, three-quarters to the right (close shots)
     "b_sheet": "b_sheet.png",
     "b_face": "b_face.png",
+    "b_bust": "b_bust.png",        # B waist-up, three-quarters to the left
     "dj": "dj.png",
-    "hecklers": "hecklers.png",    # the three recurring crowd members
     "crowd": "crowd.png",          # crowd look
-    "venue": "venue.png",          # the club
+    "venue": "venue.png",          # the stage, straight-on and symmetrical
+    "hecklers": "hecklers.png",    # H3 path only (old template); the Seedance path has no recurring trio
 }
 
 FONT_URLS = {
